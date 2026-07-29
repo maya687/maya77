@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-// const API_BASE = window.location.origin.replace('-3000.', '-8080.');
+// APIベースURLの設定 (Codespaces / AWS / ローカル環境対応)
 const API_BASE = window.location.origin.includes('-3000.')
   ? window.location.origin.replace('-3000.', '-8080.') // Codespaces環境用
   : `${window.location.protocol}//${window.location.hostname}:8080`; // AWS / ローカル環境用
 
 function App() {
-  const [testUserId, setTestUserId] = useState(1); 
+  const [testUserId, setTestUserId] = useState(1);
   const [posts, setPosts] = useState([]);
   const [profile, setProfile] = useState(null);
-  const [targetUserId, setTargetUserId] = useState(null); 
+  const [targetUserId, setTargetUserId] = useState(null);
   const [content, setContent] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const [commentInputs, setCommentInputs] = useState({});
@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     fetchProfile();
     fetchPosts();
-  }, [testUserId, targetUserId]); 
+  }, [testUserId, targetUserId]);
 
   const fetchProfile = async () => {
     try {
@@ -76,7 +76,7 @@ function App() {
     try {
       const res = await fetch(`${API_BASE}/api/posts`, fetchOptions({
         method: 'POST',
-        headers: { 'X-User-Id': String(testUserId) }, 
+        headers: { 'X-User-Id': String(testUserId) },
         body: formData,
       }));
       if (res.ok) {
@@ -94,10 +94,11 @@ function App() {
   const handlePostDelete = async (postId) => {
     if (!window.confirm('この投稿を削除しますか？')) return;
     try {
-      const res = await fetch(`${API_BASE}/api/posts/delete?post_id=${postId}`, fetchOptions({
-        method: 'POST',
-        headers: { 'X-User-Id': String(testUserId) }
-      }));
+      const res = await fetch(`${API_BASE}/api/posts/delete?post_id=${postId}`,
+        fetchOptions({
+          method: 'POST',
+          headers: { 'X-User-Id': String(testUserId) }
+        }));
       if (res.ok) {
         fetchPosts();
       } else {
@@ -158,7 +159,6 @@ function App() {
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
-    
     const formData = new FormData();
     formData.append('username', editName);
     formData.append('bio', editBio);
@@ -169,12 +169,11 @@ function App() {
     try {
       const res = await fetch(`${API_BASE}/api/users/profile`, fetchOptions({
         method: 'POST',
-        headers: { 
+        headers: {
           'X-User-Id': String(testUserId)
         },
         body: formData,
       }));
-
       if (res.ok) {
         setIsModalOpen(false);
         setEditAvatar(null);
@@ -205,20 +204,18 @@ function App() {
     <div className="app-container">
       <header className="navbar">
         <div className="nav-content">
-          <h1 className="logo" onClick={() => setTargetUserId(null)}>Mora-X</h1>
-          
+          <h1 className="logo" onClick={() => setTargetUserId(null)}>Maya-X</h1>
           <div className="test-user-selector">
             <label htmlFor="user-id-select">テスト操作ユーザーID: </label>
-            <input 
+            <input
               id="user-id-select"
-              type="number" 
-              min="1" 
-              value={testUserId} 
+              type="number"
+              min="1"
+              value={testUserId}
               onChange={(e) => setTestUserId(Number(e.target.value))}
               style={{ width: '50px', padding: '4px', marginLeft: '6px', textAlign: 'center' }}
             />
           </div>
-
           {profile && (
             <div className="nav-profile" onClick={handleOpenModal}>
               {renderAvatar(profile.avatar_url)}
@@ -278,7 +275,7 @@ function App() {
                 </div>
 
                 <div className="post-actions">
-                  <button 
+                  <button
                     className={`btn-like ${post.liked_by_me ? 'liked' : ''}`}
                     onClick={() => handleLike(post.id)}
                   >
@@ -288,7 +285,7 @@ function App() {
 
                 <div className="comments-section">
                   <div className="comments-list">
-                    {post.comments.map((comment) => (
+                    {(post.comments || []).map((comment) => (
                       <div key={comment.id} className="comment-item">
                         {renderAvatar(comment.avatar_url)}
                         <div className="comment-content">
@@ -322,25 +319,25 @@ function App() {
             <form onSubmit={handleProfileUpdate}>
               <div className="form-group">
                 <label>ユーザー名</label>
-                <input 
-                  type="text" 
-                  value={editName} 
-                  onChange={(e) => setEditName(e.target.value)} 
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
                 />
               </div>
               <div className="form-group">
                 <label>自己紹介</label>
-                <textarea 
-                  value={editBio} 
-                  onChange={(e) => setEditBio(e.target.value)} 
+                <textarea
+                  value={editBio}
+                  onChange={(e) => setEditBio(e.target.value)}
                 />
               </div>
               <div className="form-group">
                 <label>アバター画像変更（任意）</label>
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  onChange={(e) => setEditAvatar(e.target.files[0])} 
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setEditAvatar(e.target.files[0])}
                 />
               </div>
               <div className="modal-actions">
