@@ -1,3 +1,8 @@
+*,
+*::before,
+*::after {
+    box-sizing:border-box;
+}
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -322,6 +327,7 @@ body {
   max-width: 450px;
   padding: 1.5rem;
   margin: 1rem;
+  box-sizing: border-box;
 }
 
 .modal-card h2 {
@@ -362,4 +368,76 @@ body {
   padding: 0.5rem 1rem;
   border-radius: 9999px;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+  .nav-content {
+    padding: 0 0.5rem;
+    height: 50px;
+    gap: 0.5rem;
+  }
+
+  .logo {
+    font-size: 1.1rem;
+  }
+
+  .test-user-selector {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+  }
+
+  .test-user-selector input {
+    width: 35px !important;
+  }
+
+  .nav-username {
+    display: none;
+  }
+
+  .main-layout {
+    padding: 0.5rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .form-actions input[type="file"] {
+    width: 100%;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+
+  .filter-banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .comment-form {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .comment-form input {
+    flex: 1;
+  }
+
+  .comment-form button {
+    width: auto;
+    white-space: nowrap;
+  }
+
+  .modal-card {
+    margin: 0.5rem;
+    padding: 1rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
 }

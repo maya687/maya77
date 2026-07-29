@@ -1,7 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 
-const API_BASE = window.location.origin.replace('-3000.', '-8080.');
+// const API_BASE = window.location.origin.replace('-3000.', '-8080.');
+const API_BASE = window.location.origin.includes('-3000.')
+  ? window.location.origin.replace('-3000.', '-8080.') // Codespaces環境用
+  : `${window.location.protocol}//${window.location.hostname}:8080`; // AWS / ローカル環境用
 
 function App() {
   const [testUserId, setTestUserId] = useState(1); 
